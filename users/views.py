@@ -10,14 +10,19 @@ User = get_user_model()
 @api_view(['POST'])
 @permission_classes([permissions.AllowAny])
 def register(request):
-    """ Register a new user """
-    email = request.data.get('email')
-    username = request.data.get('username')
-    password = request.data.get('password')
-    role = request.data.get('role', 'clerk')  # Default role is 'clerk'
+    """ Register a new user (default role is Clerk) """
+    role = request.data.get('role', 'clerk')  # Default role is clerk
+    if role not in ['admin', 'clerk']:
+        return Response({'error': 'Invalid role'}, status=400)
 
-    if not email or not username or not password:
-        return Response({'error': 'Missing required fields'}, status=status.HTTP_400_BAD_REQUEST)
+    user = get_user_model().objects.create_user(
+        email=request.data['email'],
+        username=request.data['username'],
+        password=request.data['password']
+    )
 
-    user = User.objects.create_user(email=email, username=username, password=password, role=role)
-    return Response({'tokens': user.tokens(), 'user': UserSerializer(user).data}, status=status.HTTP_201_CREATED)
+    # Set role manually since `create_user` does not accept it
+    user.role = role
+    user.save()
+
+    return Response({'tokens': user.tokens(), 'role': user.role})

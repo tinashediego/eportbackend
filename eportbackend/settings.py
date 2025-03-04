@@ -85,15 +85,19 @@ TEMPLATES = [
 WSGI_APPLICATION = 'eportbackend.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'eportdb_test',     # Database name
+        'USER': 'postgres',         # Database user
+        'PASSWORD': 'admin', # User password
+        'HOST': 'localhost',      # Or your DB server IP
+        'PORT': '5432',           # Default PostgreSQL port
     }
 }
+
+AUTH_USER_MODEL = 'users.User'
+
 
 
 # Password validation

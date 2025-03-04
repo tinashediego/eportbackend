@@ -12,6 +12,17 @@ class User(AbstractUser):
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=150, unique=True)
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='clerk')
+    groups = models.ManyToManyField(
+        'auth.Group',
+        related_name='custom_user_groups'
+    )
+    user_permissions = models.ManyToManyField(
+        'auth.Permission',
+        related_name='custom_user_permissions'
+    )
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username', 'role']
+    REQUIRED_FIELDS = ['username', 'role', 'first_name', 'last_name']
+
+    def tokens(self):
+        return ''
