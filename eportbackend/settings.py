@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-#sq4(dmjkv=w)jm^0g-o@ex#ktn($^lpdp8m&6ro7sk(_2431#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     # Third-party apps
     'rest_framework',
     'rest_framework_simplejwt',
+    'corsheaders',
 
     # Custom apps
     'users',
@@ -143,3 +144,26 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+CORS_ALLOW_CREDENTIALS = True #If you are using cookies.
+
+ALLOWED_HOSTS = [
+    'https://lrui-ki-anonymous-8081.exp.direct',
+    'http://localhost:19006',
+    "http://localhost",
+    "127.0.0.1",
+   
+]
+
+CORS_ALLOWED_ORIGINS = [
+    'https://lrui-ki-anonymous-8081.exp.direct',
+    'http://localhost:19006',
+]
+
+# CORS_ALLOW_ALL_ORIGINS = True
+CSRF_TRUSTED_ORIGINS = [
+    'https://lrui-ki-anonymous-8081.exp.direct',
+    'http://localhost:19006'
+]
+   

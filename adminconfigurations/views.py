@@ -2,6 +2,9 @@ from rest_framework import viewsets
 from .models import AdminConfigurationFarmType, AdminConfigurationCrop, FarmerData
 from .serializers import CropSerializer, FarmTypeSerializer, FarmerDataSerializer
 from .permissions import IsAdminUser, IsClerkUser
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from rest_framework import status
 
 class CropViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
@@ -42,4 +45,17 @@ class FarmerDataViewSet(viewsets.ModelViewSet):
     serializer_class = FarmerDataSerializer
     permission_classes = [IsClerkUser]
     
-    
+class FarmerDataViewSet(viewsets.ModelViewSet):
+    # existing methods
+
+    @action(detail=False, methods=['post'], permission_classes=[IsClerkUser])
+    def sync(self, request):
+        data = request.data
+        # Perform sync operation here
+        # For example, you can iterate over the data and save it to the database
+        for item in data:
+            FarmerData.objects.update_or_create(
+                id=item.get('id'),
+                defaults=item
+            )
+        return Response({'status': 'sync successful'}, status=status.HTTP_200_OK)
