@@ -25,4 +25,17 @@ def register(request):
     user.role = role
     user.save()
 
-    return Response({'tokens': user.tokens(), 'role': user.role})
+    return Response({'tokens': user.tokens()})
+
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def get_user_by_id(request, user_id):
+    """ Retrieve a user by their ID """
+    try:
+        user = User.objects.get(id=user_id)
+    except User.DoesNotExist:
+        return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = UserSerializer(user)
+    return Response(serializer.data, status=status.HTTP_200_OK)

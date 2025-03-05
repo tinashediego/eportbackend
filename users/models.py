@@ -1,6 +1,7 @@
 import uuid
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from rest_framework_simplejwt.tokens import RefreshToken
 
 class User(AbstractUser):
     ROLE_CHOICES = (
@@ -25,4 +26,9 @@ class User(AbstractUser):
     REQUIRED_FIELDS = ['username', 'role', 'first_name', 'last_name']
 
     def tokens(self):
-        return ''
+        refresh = RefreshToken.for_user(self)
+        return {
+            'refresh': str(refresh),
+            'access': str(refresh.access_token),
+            'role': self.role,  # Include the role in the token
+        }

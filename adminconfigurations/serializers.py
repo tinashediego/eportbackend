@@ -12,7 +12,11 @@ class FarmTypeSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class FarmerDataSerializer(serializers.ModelSerializer):
+    crop = serializers.PrimaryKeyRelatedField(queryset=AdminConfigurationCrop.objects.all(), required=True)
+    farm_type = serializers.PrimaryKeyRelatedField(queryset=AdminConfigurationFarmType.objects.all(), required=True)
+
     class Meta:
         model = FarmerData
         fields = '__all__'
         depth = 1
+

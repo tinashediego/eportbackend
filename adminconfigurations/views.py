@@ -46,6 +46,8 @@ class FarmerDataViewSet(viewsets.ModelViewSet):
     permission_classes = [IsClerkUser]
     
 class FarmerDataViewSet(viewsets.ModelViewSet):
+    queryset = FarmerData.objects.all()
+    serializer_class = FarmerDataSerializer
     # existing methods
 
     @action(detail=False, methods=['post'], permission_classes=[IsClerkUser])
@@ -53,6 +55,22 @@ class FarmerDataViewSet(viewsets.ModelViewSet):
         data = request.data
         # Perform sync operation here
         # For example, you can iterate over the data and save it to the database
+        farmer_name = data.get('farmer_name')
+        national_id = data.get('national_id')
+        farm_type = data.get('farm_type')
+        crop = data.get('crop')
+        location = data.get('location')
+        
+        # Assuming you have a method to handle the sync logic
+        FarmerData.objects.update_or_create(
+            national_id=national_id,
+            defaults={
+            'farmer_name': farmer_name,
+            'farm_type_id': farm_type,
+            'crop_id': crop,
+            'location': location
+            }
+        )
         for item in data:
             FarmerData.objects.update_or_create(
                 id=item.get('id'),

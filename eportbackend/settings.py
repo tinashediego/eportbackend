@@ -158,7 +158,7 @@ ALLOWED_HOSTS = [
 
 CORS_ALLOWED_ORIGINS = [
     'https://lrui-ki-anonymous-8081.exp.direct',
-    'http://localhost:19006',
+    'http://localhost:8081',
 ]
 
 # CORS_ALLOW_ALL_ORIGINS = True

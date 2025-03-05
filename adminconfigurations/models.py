@@ -15,7 +15,7 @@ class AdminConfigurationFarmType(models.Model):
 class FarmerData(models.Model):
     farmer_name = models.CharField(max_length=255)
     national_id = models.CharField(max_length=20)
-    farm_type = models.ForeignKey(AdminConfigurationFarmType, on_delete=models.CASCADE)
+    farm_type = models.ForeignKey(AdminConfigurationFarmType, on_delete=models.CASCADE, null=True, blank=True)
     crop = models.ForeignKey(AdminConfigurationCrop, on_delete=models.CASCADE)
     location = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
